@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ArrayBuffer test with stdweb</title>
+    </head>
+    <body>
+        <button onclick="spawn();">Foo</button>
+        <div id="foo"></div>
+        <script src="./wasm_stdweb.js"></script>
+        <script>
+            var wasm_stdweb;
+            Rust.wasm_stdweb.then(function(m) {
+                wasm_stdweb = m;
+            });
+            function spawn() {
+                let bar = document.getElementById("foo");
+                let baz = 0;
+                let d1 = new Date();
+                for(let i=0; i<1000; i++) {
+                    let data = wasm_stdweb.data();
+                    baz += data.length;
+                }
+                let d2 = new Date();
+                bar.innerHTML = d2.getTime()-d1.getTime();
+            }
+        </script>
+    </body>
+</html>
